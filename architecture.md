@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | **Document** | Technical Architecture Document |
-| **Version** | 1.1 |
+| **Version** | 1.2 |
 | **Date** | 10 Nov 2026 |
 | **Status** | Draft for build |
 | **Source PRD** | [`PRD.md`](PRD.md) |
@@ -898,16 +898,35 @@ palette above.
 
 #### Streamlit mapping
 
-The tokens translate directly into `.streamlit/config.toml` (`primaryColor`
-`#00D09C`, `backgroundColor` `#FFFFFF`, `secondaryBackgroundColor` `#F7F8FA`,
-`textColor` `#44475B`, sans-serif Manrope). What Streamlit native widgets cannot
-reproduce is the fixed Material-icon header, the segmented control, the timeline
-rail, and zebra-striped tables; those are approximations at best. Because
-`unsafe_allow_html=False` is enforced by
-`tests/security/test_ui_rendering.py`, the screen cannot be embedded as HTML/CSS
-without changing that test and rewriting `tests/e2e/test_ui_smoke.py` to target
-custom components. The Stitch screens are therefore the target for a future
-theming pass, not a drop-in asset.
+The structural tokens are applied in `.streamlit/config.toml` under `[theme]`:
+`base = "light"`, `primaryColor` `#00D09C`, `backgroundColor` `#FFFFFF`,
+`secondaryBackgroundColor` `#F7F8FA`, `textColor` `#44475B`, `borderColor`
+`#E6E9EB`, `linkColor` `#00B386` with `linkUnderline`, dataframe header on
+`#F7F8FA`/`#7C7E8C`, `baseRadius` 0.75 rem, `buttonRadius` 0.5 rem,
+`baseFontSize` 15, `showWidgetBorder`, and the green role re-pointed to the
+brand tint. `tests/unit/test_theme_config.py` fails if any hex in `[theme]`
+leaves the closed palette, and the localhost binding test still reads the same
+file.
+
+What the theme cannot deliver:
+
+- **Manrope.** `theme.font` only accepts generic families, so the app keeps
+  Streamlit's sans stack. Loading Manrope needs a stylesheet injection, which the
+  `unsafe_allow_html=False` rule (and
+  `tests/security/test_ui_rendering.py`) forbids.
+- **Four semantic alert colours.** `cards.py` maps `answered` to
+  `st.success`, refusals and clarify to `st.warning`, not-found and out-of-scope
+  to `st.info`, and PII/errors to `st.error`. Those roles keep their default
+  orange/blue/red so real failures stay distinguishable; only the green role is
+  rebranded. Moving to the design's single neutral chip is a `cards.py` change,
+  not a theme change.
+- **Layout chrome.** The fixed Material-icon header, segmented control, timeline
+  rail, and zebra-striped tables have no native equivalent. Rendering them needs
+  custom components, which would mean rewriting
+  `tests/security/test_ui_rendering.py` and `tests/e2e/test_ui_smoke.py`.
+
+The Stitch screens therefore remain the target for a future layout pass; the
+palette and geometry are live today.
 
 #### Fidelity gaps — mock content must not ship
 
@@ -924,6 +943,8 @@ replaced by the application's own values before any visual port:
 | Person avatar in the header | Implies authentication, which is out of scope (§1) |
 | Tab labels `Pipeline Trace`, `Sources (5)`, `Evaluation Bench` | Product tabs are Ask, Pipeline, Sources, Evaluation; keep the product names |
 | Evaluation row that re-prints a folio number and Aadhaar fragment | Blocked rows never echo the captured value in the app (§10.2); the recorded set is redacted |
+| Status chips are all neutral except `Answered` | The shipped app still colours refusals amber, not-found blue, and PII red via Streamlit alerts; unifying them is a `cards.py` change |
+| Manrope throughout | Not loaded; `theme.font` accepts only generic families and CSS injection is blocked |
 
 **Change control.** `design/stitch/DESIGN.md` and `.streamlit/config.toml` change
 together; screens are regenerated from the prompt rather than hand-edited.
@@ -1913,3 +1934,4 @@ These must always hold; tests assert them:
 |---|---|---|
 | 1.0 | 08 Nov 2026 | Initial architecture derived from `PRD.md`; components, data flow, interfaces, guardrails, deployment, testing, ADRs, and traceability defined |
 | 1.1 | 10 Nov 2026 | Added §7.11 UI design system and screen inventory from the Google Stitch export (`design/stitch/`): tokens, type scale, per-tab anatomy, Streamlit mapping, and the mock-content gaps that must not ship |
+| 1.2 | 10 Nov 2026 | Applied the Groww palette and geometry to `.streamlit/config.toml`, added the `tests/unit/test_theme_config.py` palette guard, and recorded what a Streamlit theme cannot reproduce (generic fonts only, four semantic alert colours) |

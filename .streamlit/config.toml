@@ -1,3 +1,37 @@
+# Groww-aligned visual theme, mapped from the Stitch design system in
+# design/stitch/DESIGN.md (see architecture.md §7.11). Colours are a closed set:
+# primary #00D09C, deep green #00B386, tint #E8FBF6, ink #44475B, muted #7C7E8C,
+# surface #FFFFFF, subtle surface #F7F8FA, border #E6E9EB.
+#
+# Two deliberate limits:
+# - Manrope is the design face, but theme.font only accepts generic families
+#   ("sans-serif", "serif", "monospace"), so the app uses Streamlit's default
+#   sans stack. Loading Manrope would need a stylesheet injection, which
+#   conflicts with unsafe_allow_html=False.
+# - Only the structural palette and the green "success" role are re-pointed.
+#   The orange/blue/red alert roles keep their defaults because cards.py uses
+#   them to signal refusals, not-found, and PII blocks.
+[theme]
+base = "light"
+primaryColor = "#00D09C"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F7F8FA"
+textColor = "#44475B"
+linkColor = "#00B386"
+linkUnderline = true
+borderColor = "#E6E9EB"
+dataframeBorderColor = "#E6E9EB"
+dataframeHeaderBackgroundColor = "#F7F8FA"
+dataframeHeaderTextColor = "#7C7E8C"
+baseRadius = "0.75rem"
+buttonRadius = "0.5rem"
+showWidgetBorder = true
+baseFontSize = 15
+paddingTop = "2.5rem"
+greenColor = "#00D09C"
+greenBackgroundColor = "#E8FBF6"
+greenTextColor = "#00B386"
+
 # Bind the Streamlit server to localhost only: no LAN or external exposure.
 [server]
 address = "localhost"

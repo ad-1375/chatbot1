@@ -259,7 +259,11 @@ pytest tests/security/test_ui_rendering.py -q
 
 The app binds to localhost only (`.streamlit/config.toml` sets
 `server.address = "localhost"`), so it is not reachable from the LAN or the
-internet. It has four tabs:
+internet. The same file carries the Groww-aligned theme (`[theme]`: `#00D09C`
+accent, `#44475B` text, `#F7F8FA` surfaces, `#E6E9EB` borders, 12 px/8 px radii);
+`tests/unit/test_theme_config.py` fails if any colour leaves that palette. Design
+references from Google Stitch live in `design/stitch/` and are described in
+`architecture.md` §7.11. It has four tabs:
 
 - **Ask** — title, persistent “Facts-only. No investment advice.” note, three
   example questions, chat input, and the footer disclaimer. Every response card
