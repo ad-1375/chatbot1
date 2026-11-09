@@ -18,6 +18,10 @@ htmlcov/
 # Rebuilt inside the image at build time.
 data/
 
+# models/ IS copied into the image: it holds the vendored MiniLM snapshot that
+# EMBEDDING_MODEL_PATH points at, because the Vercel build network cannot reach
+# huggingface.co.
+
 # Not needed at runtime.
 tests/
 eval/

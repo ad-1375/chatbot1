@@ -16,5 +16,10 @@ import mf_faq.config as config
 @pytest.fixture(autouse=True)
 def _isolate_dotenv(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(config, "_load_dotenv", lambda path: None)
-    for key in ("LLM_PROVIDER", "LLM_MODEL", *config.PROVIDER_ENV_KEYS.values()):
+    for key in (
+        "LLM_PROVIDER",
+        "LLM_MODEL",
+        "EMBEDDING_MODEL_PATH",
+        *config.PROVIDER_ENV_KEYS.values(),
+    ):
         monkeypatch.delenv(key, raising=False)

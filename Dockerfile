@@ -14,6 +14,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     TOKENIZERS_PARALLELISM=false \
     HF_HOME=/opt/hf-cache \
+    HF_HUB_OFFLINE=1 \
+    TRANSFORMERS_OFFLINE=1 \
+    EMBEDDING_MODEL_PATH=/app/models/all-MiniLM-L6-v2 \
     STREAMLIT_SERVER_HEADLESS=true \
     STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
 
@@ -33,6 +36,7 @@ COPY config ./config
 COPY src ./src
 COPY scripts ./scripts
 COPY docs ./docs
+COPY models ./models
 COPY .streamlit ./.streamlit
 
 # Editable install keeps the package at /app/src/mf_faq, so the app resolves
@@ -40,7 +44,9 @@ COPY .streamlit ./.streamlit
 RUN pip install -e .
 
 # Build the corpus from exactly the five configured pages. This needs network
-# access during the Vercel build but no LLM provider key.
+# access during the Vercel build but no LLM provider key. The embedding model is
+# bundled under models/ (see EMBEDDING_MODEL_PATH above) because the build
+# network cannot reach huggingface.co.
 RUN python -m scripts.run_ingest \
     && python -m scripts.run_chunk \
     && python -m scripts.run_embed \

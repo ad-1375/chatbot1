@@ -141,6 +141,9 @@ data/embeddings/embed_report.md           human-readable report and invariant ch
 Model: `sentence-transformers/all-MiniLM-L6-v2`, dimension 384, batch size 32,
 max sequence length 256. Vectors are cached by
 `sha256(model + content_hash + normalize)`, so duplicate content is encoded once.
+Set `EMBEDDING_MODEL_PATH` to a local snapshot directory to load the weights from
+disk instead of the Hugging Face cache (the Vercel image uses
+`models/all-MiniLM-L6-v2` this way; the default Hub id is unchanged locally).
 The pipeline verifies `embedding.max_seq_length >= chunking.max_tokens`, encodes
 in chunk order, and fails closed unless the vector count matches the indexed
 chunk count, IDs are unique and ordered, and every row is `float32`, finite,
@@ -284,8 +287,11 @@ Streamlit needs a long-lived WebSocket server, so the app deploys as a
 **container image** (`Dockerfile` + `vercel.json` with `"framework": "container"`),
 not as a static or standard serverless app. The five pages are ingested, chunked,
 embedded, and indexed during the image build, so `data/` is never committed and
-no provider key is needed at build time. Full steps, every parameter, limits, and
-troubleshooting: [`docs/deploy-vercel.md`](docs/deploy-vercel.md).
+no provider key is needed at build time. The MiniLM snapshot is vendored under
+`models/all-MiniLM-L6-v2` and loaded through `EMBEDDING_MODEL_PATH`, because
+Vercel's build network cannot reach `huggingface.co`. Full steps, every
+parameter, limits, and troubleshooting:
+[`docs/deploy-vercel.md`](docs/deploy-vercel.md).
 
 Short version:
 
@@ -315,6 +321,7 @@ stateless and still answer correctly.
 config/config.yaml      typed runtime settings
 src/mf_faq/             application package (config, contracts, healthcheck, ingest, chunking, embeddings, index, guardrails, retrieval, generation)
 scripts/                pipeline entry points (run_ingest, run_chunk, run_embed, run_index, and run_answer implemented)
+models/                 vendored all-MiniLM-L6-v2 snapshot for offline container builds
 tests/                  unit, integration, security, and e2e tests
 data/                   rebuildable artifacts: raw, processed, chunks, embeddings, chroma, traces
 docs/                   source registry, sample Q&A, disclaimer, Vercel deployment guide

@@ -14,13 +14,15 @@ Deployment files already in the repo:
 
 | File | Purpose |
 |---|---|
-| `Dockerfile` | `python:3.12-slim`, CPU-only torch, editable install, corpus built at image build time |
-| `.dockerignore` | keeps `.env`, `data/`, tests, and `.venv` out of the build context |
+| `Dockerfile` | `python:3.12-slim`, CPU-only torch, editable install, bundled MiniLM snapshot, corpus built at image build time |
+| `.dockerignore` | keeps `.env`, `data/`, tests, and `.venv` out of the build context (but keeps `models/`) |
+| `models/all-MiniLM-L6-v2/` | vendored 384-d embedding model, loaded via `EMBEDDING_MODEL_PATH` with no Hub access |
 | `vercel.json` | `{"framework": "container"}` so the root `Dockerfile` is used |
 
 The five Groww pages are fetched **during the image build**, so no `data/`
-artifacts are committed and no provider key is needed to build. The provider key
-is only read at runtime.
+artifacts are committed and no provider key is needed to build. The embedding
+model ships inside the image (see §6) because the build network cannot reach
+`huggingface.co`. The provider key is only read at runtime.
 
 ---
 
@@ -69,8 +71,10 @@ process environment (dotenv never overrides real env values).
    **Sensitive** variables can be created and used but never read back from the
    dashboard or CLI after saving — good default for `GROQ_API_KEY`.
 
-6. Click **Deploy**. The first build downloads torch and the embedding model,
-   fetches the five pages, and indexes 86 chunks; expect roughly 5–10 minutes.
+6. Click **Deploy**. The first build downloads torch, builds the corpus with the
+   bundled MiniLM model, fetches the five pages, and indexes 86 chunks; expect
+   roughly 5–10 minutes (the ~90 MB model snapshot is already in the repo, so no
+   Hugging Face download is attempted).
 
 7. When the build finishes, open the deployment URL. `https://<project>.vercel.app`
    serves the Ask tab.
@@ -196,7 +200,62 @@ What the duration and scale-down limits mean in practice:
 
 ---
 
-## 6. If the build cannot fetch Groww
+## 6. The embedding model ships with the image
+
+Vercel's build network can reach Groww but **not** `huggingface.co`. A build that
+relies on `SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")`
+therefore fails at `run_embed` with:
+
+```text
+FAIL: could not load embedding model 'sentence-transformers/all-MiniLM-L6-v2'
+from local files: We couldn't connect to 'https://huggingface.co' ...
+```
+
+The fix is already in the repo: `models/all-MiniLM-L6-v2/` holds the MiniLM
+snapshot, and the image points at it:
+
+```dockerfile
+ENV HF_HUB_OFFLINE=1 \
+    TRANSFORMERS_OFFLINE=1 \
+    EMBEDDING_MODEL_PATH=/app/models/all-MiniLM-L6-v2
+...
+COPY models ./models
+```
+
+`load_encoder()` reads `EMBEDDING_MODEL_PATH` and passes that directory to
+`SentenceTransformer(..., local_files_only=True)`. The path is not part of
+`config.yaml`, so `config_hash` and existing local indexes stay valid. When the
+variable is unset, the loader uses `embedding.model` exactly as before, which is
+why local development still resolves the Hub id from `~/.cache/huggingface`.
+
+Vendored files (all from snapshot `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`):
+
+```text
+models/all-MiniLM-L6-v2/
+  config.json
+  config_sentence_transformers.json
+  model.safetensors            ~91 MB
+  modules.json
+  sentence_bert_config.json
+  special_tokens_map.json
+  tokenizer.json
+  tokenizer_config.json
+  vocab.txt
+  1_Pooling/config.json
+```
+
+The weights are bit-identical to the Hub snapshot, so embeddings (and therefore
+the Chroma index and retrieval scores) do not change. `.gitattributes` marks
+`models/**` as binary so Git never rewrites line endings in these files.
+
+To refresh the snapshot, copy a newer Hub snapshot into the same directory (keep
+the file list above) and redeploy. To use a different local directory without
+changing the image, set `EMBEDDING_MODEL_PATH` to an absolute path or a path
+relative to the project root.
+
+---
+
+## 7. If the build cannot fetch Groww
 
 Step 1 of the `Dockerfile` fetches exactly the five configured URLs. If Vercel's
 build network is blocked by Groww (HTTP 403/429 or a Cloudflare challenge), the
@@ -248,11 +307,12 @@ limited to five pages and the fetch policy is part of the spec.
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| Build fails at `run_ingest`, HTTP 403/429 | Groww blocks the build IP | use the committed-corpus fallback in §6 |
+| Build fails at `run_embed`, cannot connect to `huggingface.co` | `EMBEDDING_MODEL_PATH` missing, or `models/` not copied into the image | keep the model env vars and `COPY models ./models` from §6 |
+| Build fails at `run_ingest`, HTTP 403/429 | Groww blocks the build IP | use the committed-corpus fallback in §7 |
 | Build fails: image layer exceeds 2 GB | torch installed together with the rest | keep `pip install torch` in its own `RUN` layer (already done) |
 | `_stcore/health` returns 404 / page never loads | app bound to `localhost` or wrong port | keep `--server.address=0.0.0.0 --server.port=${PORT:-80}` in the `CMD`; do not rely on `.streamlit/config.toml` (`server.address = "localhost"`) |
 | WebSocket disconnects every 5 minutes | Hobby max duration | expected; facts still work after reconnect, chat history resets |
@@ -264,7 +324,7 @@ limited to five pages and the fetch policy is part of the spec.
 
 ---
 
-## 8. Local image check (optional)
+## 9. Local image check (optional)
 
 Docker is not installed on the development machine used for this project, so the
 image has not been built locally. With Docker Desktop available:

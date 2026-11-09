@@ -12,7 +12,9 @@ See implementation.md §5.
 from __future__ import annotations
 
 import hashlib
+import os
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Protocol, Sequence
 
 import numpy as np
@@ -21,6 +23,10 @@ from mf_faq.config import Settings
 from mf_faq.contracts import Chunk
 
 EXPECTED_DIMENSION = 384
+
+# Load a checked-in model snapshot instead of the Hugging Face Hub. Vercel's
+# build network cannot reach huggingface.co, so the image ships the weights.
+EMBEDDING_MODEL_PATH_ENV = "EMBEDDING_MODEL_PATH"
 
 
 class EmbeddingError(RuntimeError):
@@ -70,8 +76,29 @@ class EmbeddingCache:
         return len(self.vectors)
 
 
+def embedding_model_source(settings: Settings) -> str:
+    """Return the model reference handed to ``SentenceTransformer``.
+
+    Defaults to ``embedding.model`` (a Hub id resolved from the local cache).
+    ``EMBEDDING_MODEL_PATH`` overrides it with a local snapshot directory, which
+    is how the container image loads MiniLM without network access.
+    """
+    override = os.environ.get(EMBEDDING_MODEL_PATH_ENV, "").strip()
+    if not override:
+        return settings.embedding.model
+
+    candidate = Path(override).expanduser()
+    if not candidate.is_absolute():
+        candidate = (settings.base_dir / candidate).resolve()
+    if not candidate.exists():
+        raise EmbeddingError(
+            f"{EMBEDDING_MODEL_PATH_ENV} points to {candidate}, which does not exist"
+        )
+    return str(candidate)
+
+
 def load_encoder(settings: Settings) -> Encoder:
-    """Load the configured SentenceTransformer once from the local cache."""
+    """Load the configured SentenceTransformer once from local files only."""
     try:
         from sentence_transformers import SentenceTransformer
     except ImportError as exc:  # pragma: no cover - dependency is declared
@@ -80,17 +107,17 @@ def load_encoder(settings: Settings) -> Encoder:
             '`pip install -e ".[dev]"` or install sentence-transformers'
         ) from exc
 
+    source = embedding_model_source(settings)
     device = None if settings.embedding.device == "auto" else settings.embedding.device
     try:
         model = SentenceTransformer(
-            settings.embedding.model,
+            source,
             device=device,
             local_files_only=True,
         )
     except Exception as exc:
         raise EmbeddingError(
-            f"could not load embedding model {settings.embedding.model!r} "
-            f"from the local Hugging Face cache: {exc}"
+            f"could not load embedding model {source!r} from local files: {exc}"
         ) from exc
 
     model.max_seq_length = settings.embedding.max_seq_length

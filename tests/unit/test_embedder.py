@@ -13,9 +13,11 @@ import pytest
 from mf_faq.config import Settings
 from mf_faq.contracts import Chunk
 from mf_faq.embeddings.embedder import (
+    EMBEDDING_MODEL_PATH_ENV,
     EXPECTED_DIMENSION,
     ChunkEmbedder,
     EmbeddingError,
+    embedding_model_source,
     validate_embeddings,
 )
 
@@ -182,3 +184,40 @@ def test_blank_query_is_rejected(settings: Settings, encoder: FakeEncoder) -> No
 
     with pytest.raises(EmbeddingError, match="blank"):
         embedder.embed_query("   ")
+
+
+def test_model_source_defaults_to_configured_hub_id(
+    settings: Settings, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delenv(EMBEDDING_MODEL_PATH_ENV, raising=False)
+
+    assert embedding_model_source(settings) == settings.embedding.model
+
+
+def test_model_source_uses_local_snapshot_override(
+    settings: Settings, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    snapshot = tmp_path / "all-MiniLM-L6-v2"
+    snapshot.mkdir()
+    monkeypatch.setenv(EMBEDDING_MODEL_PATH_ENV, str(snapshot))
+
+    assert embedding_model_source(settings) == str(snapshot)
+
+
+def test_model_source_resolves_relative_override(
+    settings: Settings, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    snapshot = settings.base_dir / "models" / "all-MiniLM-L6-v2"
+    snapshot.mkdir(parents=True)
+    monkeypatch.setenv(EMBEDDING_MODEL_PATH_ENV, "models/all-MiniLM-L6-v2")
+
+    assert embedding_model_source(settings) == str(snapshot.resolve())
+
+
+def test_missing_model_override_is_rejected(
+    settings: Settings, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv(EMBEDDING_MODEL_PATH_ENV, str(tmp_path / "missing"))
+
+    with pytest.raises(EmbeddingError, match="does not exist"):
+        embedding_model_source(settings)
