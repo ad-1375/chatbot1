@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-fixed-variant": "#00513b",
+          "on-secondary-container": "#007153",
+          "on-primary-fixed-variant": "#00513b",
+          "secondary-fixed": "#71fac8",
+          "outline-variant": "#bacac1",
+          "on-secondary-fixed": "#002116",
+          "surface-tint": "#006c4f",
+          "tertiary-fixed-dim": "#ffb785",
+          "inverse-primary": "#2fe0aa",
+          "on-primary-fixed": "#002116",
+          "error-container": "#ffdad6",
+          "primary-fixed": "#59fdc5",
+          "surface-container-highest": "#dfe1fa",
+          "surface": "#fbf8ff",
+          "tertiary-fixed": "#ffdcc6",
+          "surface-bright": "#fbf8ff",
+          "primary": "#006c4f",
+          "on-surface": "#171a2c",
+          "on-background": "#171a2c",
+          "on-surface-variant": "#3c4a43",
+          "on-tertiary": "#ffffff",
+          "primary-container": "#00d09c",
+          "outline": "#6b7b72",
+          "on-error": "#ffffff",
+          "tertiary": "#934b07",
+          "surface-container": "#ececff",
+          "surface-dim": "#d7d8f1",
+          "secondary-container": "#6ef7c6",
+          "inverse-surface": "#2c2f42",
+          "surface-container-low": "#f3f2ff",
+          "on-secondary": "#ffffff",
+          "tertiary-container": "#ffa15b",
+          "surface-container-high": "#e5e6ff",
+          "error": "#ba1a1a",
+          "secondary": "#006c4f",
+          "surface-variant": "#dfe1fa",
+          "inverse-on-surface": "#f0efff",
+          "on-primary": "#ffffff",
+          "primary-fixed-dim": "#2fe0aa",
+          "on-primary-container": "#00533c",
+          "on-tertiary-fixed": "#301400",
+          "secondary-fixed-dim": "#50ddad",
+          "on-tertiary-container": "#733800",
+          "background": "#fbf8ff",
+          "surface-container-lowest": "#ffffff",
+          "on-error-container": "#93000a",
+          "on-tertiary-fixed-variant": "#713700"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter-desktop": "1.5rem",
+          "space-xl": "2rem",
+          "margin": "1rem",
+          "gutter": "1rem",
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "margin-desktop": "1.5rem",
+          "space-2xl": "3rem",
+          "space-xs": "0.25rem"
+        },
+        "fontFamily": {
+          "label-lg": [
+            "Manrope"
+          ],
+          "body-sm": [
+            "Manrope"
+          ],
+          "body-lg": [
+            "Manrope"
+          ],
+          "headline-md": [
+            "Manrope"
+          ],
+          "headline-xl": [
+            "Manrope"
+          ],
+          "body-md": [
+            "Manrope"
+          ],
+          "headline-xl-mobile": [
+            "Manrope"
+          ],
+          "label-md": [
+            "Manrope"
+          ],
+          "headline-lg": [
+            "Manrope"
+          ],
+          "headline-sm": [
+            "Manrope"
+          ],
+          "label-sm": [
+            "Manrope"
+          ]
+        },
+        "fontSize": {
+          "label-lg": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "19.5px",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-xl": [
+            "32px",
+            {
+              "lineHeight": "40px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "22.5px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl-mobile": [
+            "26px",
+            {
+              "lineHeight": "34px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "label-md": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-lg": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-sm": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "600"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "14px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "600"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/30"><div class="h-16 w-full max-w-[1120px] mx-auto px-margin md:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="HDFC MF Facts Logo" class="h-8 w-auto object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida/ALJJyrC85e_-SLbDZdBU20K_F5JsPVtsr1eZ5b2HDzlyw16oYivwH547tQKMREK6PYwfGiD3uU6CnmtT907VhlGfgwgUF0wsdPIUfQS9oCSEz9e31JetrvapLwMOeVqGFS-T_y4x5mHHQlO5wSNxGMnvhSTvn83uumHpFe6hnP4duC-YEvCqw83tiI0bihDeUQDUB2sg8s5HgtIG2O5hh87Y0szm-9pG774HeHiYiEExwmg"/><span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">HDFC MF Facts</span></div><div class="flex items-center gap-space-md"><span class="font-label-md text-label-md text-outline hidden sm:inline-block">5 sources · Build 2026-11-10</span><div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full border border-outline-variant/40 bg-surface-container-lowest"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span><span class="font-label-sm text-label-sm text-on-surface font-semibold">Live</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="w-full border-t border-outline-variant/20 bg-surface-container-lowest"><div class="max-w-[1120px] mx-auto px-margin md:px-margin-desktop"><nav class="flex items-center gap-space-lg" data-active-classes="text-on-surface border-b-2 border-primary-container font-semibold"><a class="inline-flex items-center pb-2.5 pt-2 text-outline font-label-lg text-label-lg hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="ask" href="#">Ask</a><a class="inline-flex items-center pb-2.5 pt-2 text-outline font-label-lg text-label-lg hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="pipeline" href="#">Pipeline</a><a class="inline-flex items-center pb-2.5 pt-2 text-outline font-label-lg text-label-lg hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="sources" href="#">Sources</a><a class="inline-flex items-center pb-2.5 pt-2 text-outline font-label-lg text-label-lg hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="evaluation" href="#">Evaluation</a></nav></div></div></header><main class="w-full pt-28 pb-space-2xl min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1120px] mx-auto px-margin md:px-margin-desktop py-space-xl md:py-space-2xl flex flex-col justify-center items-center min-h-[580px]">
+<div class="w-full max-w-[800px] bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-space-md md:p-space-lg shadow-sm">
+<form class="flex flex-col gap-space-sm" id="ask-composer" onsubmit="event.preventDefault();">
+<div class="flex items-center gap-space-sm w-full">
+<div class="relative flex-1 flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[20px] pointer-events-none select-none">search</span>
+<input aria-label="Ask about HDFC Mutual Fund factual disclosures" autocomplete="off" class="w-full h-12 pl-10 pr-3.5 bg-surface-container-lowest border border-outline-variant/40 rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary/20 transition-all" id="fact-query-input" placeholder="Ask about expense ratio, exit load, minimum SIP, lock-in, riskometer…" type="text"/>
+</div>
+<button class="h-12 px-6 bg-primary-container hover:bg-primary-fixed-dim text-on-primary font-label-lg text-label-lg font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shrink-0" type="submit">
+<span>Ask</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<div class="flex items-center justify-between pt-1 px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-outline text-[15px]">verified_user</span>
+<span class="font-label-sm text-label-sm text-outline tracking-normal font-medium">Facts only. No investment advice.</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline hidden sm:inline-block">Updated through latest SEBI statutory filings</span>
+</div>
+</form>
+</div>
+<div class="mt-space-lg flex flex-col items-center gap-2.5">
+<span class="font-label-md text-label-md text-outline">Try asking:</span>
+<div class="flex flex-wrap items-center justify-center gap-2">
+<button class="bg-surface hover:bg-surface-container-low border border-outline-variant/40 hover:border-primary-container text-on-surface font-label-md text-label-md px-3.5 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary flex items-center gap-1.5" onclick="fillQuery('Expense ratio of HDFC ELSS?')" type="button">
+<span>Expense ratio of HDFC ELSS?</span>
+</button>
+<button class="bg-surface hover:bg-surface-container-low border border-outline-variant/40 hover:border-primary-container text-on-surface font-label-md text-label-md px-3.5 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary flex items-center gap-1.5" onclick="fillQuery('Exit load on Flexi Cap?')" type="button">
+<span>Exit load on Flexi Cap?</span>
+</button>
+<button class="bg-surface hover:bg-surface-container-low border border-outline-variant/40 hover:border-primary-container text-on-surface font-label-md text-label-md px-3.5 py-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary flex items-center gap-1.5" onclick="fillQuery('Lock-in for ELSS?')" type="button">
+<span>Lock-in for ELSS?</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+    function fillQuery(text) {
+      const input = document.getElementById('fact-query-input');
+      if (input) {
+        input.value = text;
+        input.focus();
+      }
+    }
+  </script>
+</div></main><footer class="w-full border-t border-outline-variant/30 bg-surface-container-lowest py-space-md"><div class="max-w-[1120px] mx-auto px-margin md:px-margin-desktop flex flex-col sm:flex-row items-center justify-between gap-space-sm"><span class="font-label-md text-label-md text-outline">HDFC Asset Management Internal Research Workspace</span><span class="font-label-sm text-label-sm text-outline">Confidential · Audit Rigor Compliant</span></div></footer></body></html>

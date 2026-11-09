@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-fixed-variant": "#00513b",
+          "on-secondary-container": "#007153",
+          "on-primary-fixed-variant": "#00513b",
+          "secondary-fixed": "#71fac8",
+          "outline-variant": "#bacac1",
+          "on-secondary-fixed": "#002116",
+          "surface-tint": "#006c4f",
+          "tertiary-fixed-dim": "#ffb785",
+          "inverse-primary": "#2fe0aa",
+          "on-primary-fixed": "#002116",
+          "error-container": "#ffdad6",
+          "primary-fixed": "#59fdc5",
+          "surface-container-highest": "#dfe1fa",
+          "surface": "#fbf8ff",
+          "tertiary-fixed": "#ffdcc6",
+          "surface-bright": "#fbf8ff",
+          "primary": "#006c4f",
+          "on-surface": "#171a2c",
+          "on-background": "#171a2c",
+          "on-surface-variant": "#3c4a43",
+          "on-tertiary": "#ffffff",
+          "primary-container": "#00d09c",
+          "outline": "#6b7b72",
+          "on-error": "#ffffff",
+          "tertiary": "#934b07",
+          "surface-container": "#ececff",
+          "surface-dim": "#d7d8f1",
+          "secondary-container": "#6ef7c6",
+          "inverse-surface": "#2c2f42",
+          "surface-container-low": "#f3f2ff",
+          "on-secondary": "#ffffff",
+          "tertiary-container": "#ffa15b",
+          "surface-container-high": "#e5e6ff",
+          "error": "#ba1a1a",
+          "secondary": "#006c4f",
+          "surface-variant": "#dfe1fa",
+          "inverse-on-surface": "#f0efff",
+          "on-primary": "#ffffff",
+          "primary-fixed-dim": "#2fe0aa",
+          "on-primary-container": "#00533c",
+          "on-tertiary-fixed": "#301400",
+          "secondary-fixed-dim": "#50ddad",
+          "on-tertiary-container": "#733800",
+          "background": "#fbf8ff",
+          "surface-container-lowest": "#ffffff",
+          "on-error-container": "#93000a",
+          "on-tertiary-fixed-variant": "#713700"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter-desktop": "1.5rem",
+          "space-xl": "2rem",
+          "margin": "1rem",
+          "gutter": "1rem",
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "margin-desktop": "1.5rem",
+          "space-2xl": "3rem",
+          "space-xs": "0.25rem"
+        },
+        "fontFamily": {
+          "label-lg": [
+            "Manrope"
+          ],
+          "body-sm": [
+            "Manrope"
+          ],
+          "body-lg": [
+            "Manrope"
+          ],
+          "headline-md": [
+            "Manrope"
+          ],
+          "headline-xl": [
+            "Manrope"
+          ],
+          "body-md": [
+            "Manrope"
+          ],
+          "headline-xl-mobile": [
+            "Manrope"
+          ],
+          "label-md": [
+            "Manrope"
+          ],
+          "headline-lg": [
+            "Manrope"
+          ],
+          "headline-sm": [
+            "Manrope"
+          ],
+          "label-sm": [
+            "Manrope"
+          ]
+        },
+        "fontSize": {
+          "label-lg": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "19.5px",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-xl": [
+            "32px",
+            {
+              "lineHeight": "40px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "22.5px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl-mobile": [
+            "26px",
+            {
+              "lineHeight": "34px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "label-md": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-lg": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-sm": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "600"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "14px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "600"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/30"><div class="h-16 w-full max-w-[1120px] mx-auto px-margin md:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="HDFC MF Facts Logo" class="h-8 w-auto object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida/ALJJyrC85e_-SLbDZdBU20K_F5JsPVtsr1eZ5b2HDzlyw16oYivwH547tQKMREK6PYwfGiD3uU6CnmtT907VhlGfgwgUF0wsdPIUfQS9oCSEz9e31JetrvapLwMOeVqGFS-T_y4x5mHHQlO5wSNxGMnvhSTvn83uumHpFe6hnP4duC-YEvCqw83tiI0bihDeUQDUB2sg8s5HgtIG2O5hh87Y0szm-9pG774HeHiYiEExwmg"/><span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">HDFC MF Facts</span></div><div class="flex items-center gap-space-md"><span class="font-label-md text-label-md text-outline hidden sm:inline-block">5 sources · Build 2026-11-10</span><div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full border border-outline-variant/40 bg-surface-container-lowest"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span><span class="font-label-sm text-label-sm text-on-surface font-semibold">Live</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="w-full border-t border-outline-variant/20 bg-surface-container-lowest"><div class="max-w-[1120px] mx-auto px-margin md:px-margin-desktop"><nav class="flex items-center gap-space-lg" data-active-classes="text-on-surface border-b-2 border-primary-container font-semibold"><a class="inline-flex items-center pb-2.5 pt-2 text-outline font-label-lg text-label-lg hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="ask" href="#">Ask</a><a class="inline-flex items-center pb-2.5 pt-2 text-outline font-label-lg text-label-lg hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="pipeline" href="#">Pipeline</a><a class="inline-flex items-center pb-2.5 pt-2 text-outline font-label-lg text-label-lg hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="sources" href="#">Sources</a><a class="inline-flex items-center pb-2.5 pt-2 text-outline font-label-lg text-label-lg hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="evaluation" href="#">Evaluation</a></nav></div></div></header><main class="w-full pt-28 pb-space-2xl min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1120px] mx-auto px-margin md:px-margin-desktop py-space-md flex flex-col gap-space-lg">
+<!-- Composer Section -->
+<section class="w-full bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-space-xs" for="query-input">
+<span class="material-symbols-outlined text-[16px] text-primary">psychology_alt</span>
+            Institutional Query Console
+          </label>
+<span class="font-label-sm text-label-sm text-outline">Deterministic Fact Validation · Build 2026-11-10</span>
+</div>
+<div class="relative w-full">
+<textarea class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg p-space-sm md:p-space-md outline-none focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-primary transition-all resize-none placeholder:text-outline" id="query-input" placeholder="Ask a factual question regarding scheme disclosures, fund managers, portfolio ratios, or SID clauses..." rows="2">Should I invest in HDFC Mid-Cap Opportunities or switch to Flexi Cap?</textarea>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-outline mr-1">Suggested Factual Prompts:</span>
+<button class="px-2.5 py-1 rounded-lg bg-surface font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors" type="button">
+              Expense Ratio: Flexi Cap
+            </button>
+<button class="px-2.5 py-1 rounded-lg bg-surface font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors" type="button">
+              SID Benchmark Index
+            </button>
+<button class="px-2.5 py-1 rounded-lg bg-surface font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors" type="button">
+              Fund Manager Tenure
+            </button>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="h-10 px-space-md rounded-lg bg-surface font-label-lg text-label-lg text-on-surface hover:bg-surface-container-low transition-colors" type="button">
+              Clear
+            </button>
+<button class="h-10 px-space-lg rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg hover:bg-primary-fixed-dim transition-colors flex items-center gap-space-xs" type="button">
+<span>Execute Analysis</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Specific Refusal State Answer Card -->
+<!-- CRITICAL REQUIREMENT: Strictly facts-only assistant refusal. No red or amber. No citations/sources/Groww links. Clean termination. -->
+<section class="w-full bg-surface-container-lowest rounded-xl p-5 shadow-sm">
+<div class="flex flex-col gap-space-md">
+<!-- Header: Chip & Compliance Guardrail Flag -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="inline-flex items-center gap-space-xs px-2.5 py-1 rounded-lg bg-surface">
+<span class="material-symbols-outlined text-[16px] text-on-surface">info</span>
+<span class="font-label-md text-label-md text-on-surface">Refused — advice</span>
+</div>
+<div class="font-label-sm text-label-sm text-outline flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>SEBI Compliance Engine · Guardrail Triggered</span>
+</div>
+</div>
+<!-- Stated Query Echo -->
+<div class="font-label-lg text-label-lg text-outline">
+          Query: Should I buy HDFC Mid-Cap Opportunities or sell my current holdings?
+        </div>
+<!-- Strict Refusal Core Statement & Policy Detail -->
+<div class="flex flex-col gap-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+            Facts-only assistant: it will not recommend buying, selling or holding.
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed max-w-3xl">
+            Under SEBI advisory regulations and product safety guardrails, this assistant strictly serves factual prospectus metadata and disclosures. Advisory, allocation, and buy/sell/hold guidance is prohibited.
+          </p>
+</div>
+</div>
+<!-- Terminating cleanly with zero citation, source footer, or external rows -->
+</section>
+<!-- Contrast Demonstration Section: Compliant Factual Query Card -->
+<section class="flex flex-col gap-space-sm mt-space-sm">
+<div class="flex items-center justify-between px-space-xs">
+<span class="font-label-md text-label-md text-outline">Verified Audit Log · Prior Query Comparison</span>
+<span class="font-label-sm text-label-sm text-outline">Factual Metadata Extraction Pattern</span>
+</div>
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-md md:p-space-lg shadow-sm flex flex-col gap-space-md">
+<!-- Header: Success Chip & Audit Log Status -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="inline-flex items-center gap-space-xs px-2.5 py-1 rounded-lg bg-surface-container-low text-primary">
+<span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+<span class="font-label-md text-label-md font-semibold text-primary">Scheme Fact Verified</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Query ID: 20261110-84920</span>
+</div>
+<!-- Prior Query Display -->
+<div class="font-label-lg text-label-lg text-outline">
+          Query: What is the current expense ratio and primary benchmark for HDFC Flexi Cap Fund (Direct Plan)?
+        </div>
+<!-- Factual Non-Advisory Answer Specification -->
+<div class="flex flex-col gap-space-sm">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            As per the latest statutory Scheme Information Document (SID) and monthly portfolio disclosure filed with SEBI:
+          </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md pt-space-xs">
+<div class="bg-surface rounded-lg p-space-md flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline">Scheme Designation</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">HDFC Flexi Cap Fund</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Direct Plan - Growth Option</span>
+</div>
+<div class="bg-surface rounded-lg p-space-md flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline">Total Expense Ratio (Direct)</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">0.78%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Effective as of SEBI Monthly Disclosure</span>
+</div>
+<div class="bg-surface rounded-lg p-space-md flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline">Statutory Primary Benchmark</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">NIFTY 500 TRI</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Total Return Index Standard</span>
+</div>
+<div class="bg-surface rounded-lg p-space-md flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline">Fund Management Lead</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Roshi Jain</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Tenure: Since July 29, 2022</span>
+</div>
+</div>
+</div>
+<!-- Factual Citation Section (Permitted strictly on valid factual responses) -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-sm bg-surface-container-lowest">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-outline">Citations:</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low font-label-sm text-label-sm text-primary">
+              SID-HDFC-FC-2026.pdf [Page 14]
+            </span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low font-label-sm text-label-sm text-primary">
+              AMFI Monthly TER Registry Nov-2026
+            </span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Audited Schema Verified</span>
+</div>
+</div>
+</section>
+</div>
+</div></main><footer class="w-full border-t border-outline-variant/30 bg-surface-container-lowest py-space-md"><div class="max-w-[1120px] mx-auto px-margin md:px-margin-desktop flex flex-col sm:flex-row items-center justify-between gap-space-sm"><span class="font-label-md text-label-md text-outline">HDFC Asset Management Internal Research Workspace</span><span class="font-label-sm text-label-sm text-outline">Confidential · Audit Rigor Compliant</span></div></footer></body></html>

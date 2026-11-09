@@ -3,8 +3,8 @@
 | Field | Value |
 |---|---|
 | **Document** | Technical Architecture Document |
-| **Version** | 1.0 |
-| **Date** | 08 Nov 2026 |
+| **Version** | 1.1 |
+| **Date** | 10 Nov 2026 |
 | **Status** | Draft for build |
 | **Source PRD** | [`PRD.md`](PRD.md) |
 | **System** | Small-corpus RAG assistant over five public Groww pages |
@@ -828,6 +828,105 @@ The UI is a thin renderer over `AnswerResponse`; it never composes facts or cita
 - The Ask tab also shows the `trace_id` and an expandable evidence panel with scores.
 - All model/page text is escaped; `unsafe_allow_html` stays off.
 - "Clear conversation" resets session state; no chat survives the browser session.
+
+Visual system, tokens, and screen inventory: §7.11.
+
+### 7.11 UI design system and screen inventory (Stitch)
+
+**Provenance.** The visual layer was designed in Google Stitch from the written
+brief in [`docs/ui-design-prompt.md`](docs/ui-design-prompt.md) and exported as
+`stitch_hdfc_mf_facts_assistant.zip`. The extracted artifacts live under
+[`design/stitch/`](design/stitch/) and are design references only: Stitch emits
+static HTML/Tailwind, while the shipped application stays Streamlit (§4.1,
+ADR-010). No Stitch markup is served to users.
+
+| Artifact | Path | Content |
+|---|---|---|
+| Design system | `design/stitch/DESIGN.md` | Tokens, type scale, component rules |
+| Main screen | `design/stitch/main/code.html` | All four tabs in one 1120 px desktop frame |
+| Empty state | `design/stitch/empty_state/` | First run: centred composer, example chips, no answers |
+| Refusal state | `design/stitch/refusal_state/` | Advice refusal card emphasis, no citation |
+| Mobile | `design/stitch/mobile_390px/` | 390 px single column, scrollable tab row |
+
+#### Tokens
+
+The palette is closed. No hue outside this table is permitted. Stitch also emits
+`tertiary` and `error` roles in the Tailwind config of every screen, but they are
+never applied to markup (`text-tertiary`, `bg-error`, and friends: zero
+occurrences) and must stay that way.
+
+| Token | Hex | Application |
+|---|---|---|
+| Primary green | `#00D09C` | Primary button fill, active tab underline, timeline steps, focus border |
+| Deep green | `#00B386` | Button hover, citation links, small AA-compliant green text |
+| Green tint | `#E8FBF6` | `Answered` chip fill, selected states, citation pills |
+| Ink | `#44475B` | Headings, body copy, tabular values |
+| Muted | `#7C7E8C` | Metadata, timestamps, placeholders, helper copy |
+| Surface | `#FFFFFF` | Cards, header bar, table rows |
+| Subtle surface | `#F7F8FA` | App canvas, table headers, neutral chips, row hover |
+| Border | `#E6E9EB` | Every 1 px hairline, divider, and card perimeter |
+
+**Typography.** Manrope, Inter fallback: `headline-xl` 32/40 (700), `headline-lg`
+24/32 (700), `headline-md` 20/28 (600), `headline-sm` 16/24 (600), `body-lg`
+16/24, `body-md` 15/22.5, `body-sm` 13/19.5, `label-lg` 14/20 (600), `label-md`
+12/16 (600, 0.02 em), `label-sm` 11/14 (600, 0.04 em). Numeric cells use
+`font-variant-numeric: tabular-nums`.
+
+**Geometry.** 8 px rhythm (`space-xs` 4, `space-sm` 8, `space-md` 16, `space-lg`
+24, `space-xl` 32, `space-2xl` 48). Content frame 1120 px centred, 24 px desktop
+gutters, 16 px mobile. Radius: 12 px cards, 8 px buttons/inputs/chips, 4 px
+citation pills, 999 px only for step dots and counters. Elevation is planar: 1 px
+borders instead of shadows, with a single `0 1px 3px rgba(0,0,0,0.03)` allowed on
+the composer.
+
+#### Screen anatomy
+
+| Tab | Composition |
+|---|---|
+| Ask | Sub-header (shield badge, title, version chip, corpus/ingestion/status meta) → tab row → composer card (search glyph, input, solid green `Ask`) → disclaimer line → `Quick Queries` chip row → stacked answer cards |
+| Answer card | Status chip + trace ID (left), mono meta (right) → muted `Query:` line → 16 px answer (≤3 sentences) → hairline → one Groww link with `Last updated from sources: {date}` |
+| Pipeline | Trace header with query ID → segmented `Retrieve` / `Answer` control → vertical rail with green step dots and five cards (validation/PII, embed+retrieve, rerank, grounding, synthesis), each carrying latency and a count |
+| Sources | Intro line plus freshness note → table of scheme name, Groww URL, indexed chunks, last fetched; hover row `#F7F8FA` |
+| Evaluation | Summary bar with status counts and suite timestamp → 10-row table (#, question, status, citation, last verified) with tinted alt rows |
+
+**Status chip grammar.** `answered` is the only tinted chip (`#E8FBF6` fill,
+`#00B386` text, check icon). `not_found`, `refused_*`, and `blocked_pii` all use
+the neutral chip (`#F7F8FA` fill, `#44475B` text, `#E6E9EB` border) and differ by
+label and icon. State is never signalled by colour alone, which also keeps the
+four states distinguishable to colour-blind users and consistent with the closed
+palette above.
+
+#### Streamlit mapping
+
+The tokens translate directly into `.streamlit/config.toml` (`primaryColor`
+`#00D09C`, `backgroundColor` `#FFFFFF`, `secondaryBackgroundColor` `#F7F8FA`,
+`textColor` `#44475B`, sans-serif Manrope). What Streamlit native widgets cannot
+reproduce is the fixed Material-icon header, the segmented control, the timeline
+rail, and zebra-striped tables; those are approximations at best. Because
+`unsafe_allow_html=False` is enforced by
+`tests/security/test_ui_rendering.py`, the screen cannot be embedded as HTML/CSS
+without changing that test and rewriting `tests/e2e/test_ui_smoke.py` to target
+custom components. The Stitch screens are therefore the target for a future
+theming pass, not a drop-in asset.
+
+#### Fidelity gaps — mock content must not ship
+
+Stitch invents plausible-looking data. Every item below is fictional and must be
+replaced by the application's own values before any visual port:
+
+| Mock in the screens | Reality |
+|---|---|
+| `HDFC Top 100 Fund`, `HDFC Small Cap Fund` | Not in the corpus. The registry is the AMC overview plus Large Cap, Flexi Cap, ELSS, and Mid Cap (ADR-003), and the Sources table omits the AMC overview entirely |
+| Per-scheme chunk counts 42/48/44/46/39 | The real build indexes 86 chunks across the five pages |
+| `v1.4.2 Production`, `Confidential · Audit Rigor Compliant`, `SEBI Compliance Engine`, `Grounding Confidence: 100%`, `0 hallucinations detected` | Operational and compliance claims the system cannot make and does not measure |
+| `Auto-refreshed via canonical API daily at 18:30 UTC` | Refresh is build-time only; the freshness date is the image build date |
+| SID/AMFI citations, `Roshi Jain`, `0.78%` TER | Facts from documents the assistant does not index; citations must resolve from the corpus (ADR-008) |
+| Person avatar in the header | Implies authentication, which is out of scope (§1) |
+| Tab labels `Pipeline Trace`, `Sources (5)`, `Evaluation Bench` | Product tabs are Ask, Pipeline, Sources, Evaluation; keep the product names |
+| Evaluation row that re-prints a folio number and Aadhaar fragment | Blocked rows never echo the captured value in the app (§10.2); the recorded set is redacted |
+
+**Change control.** `design/stitch/DESIGN.md` and `.streamlit/config.toml` change
+together; screens are regenerated from the prompt rather than hand-edited.
 
 ---
 
@@ -1801,6 +1900,7 @@ These must always hold; tests assert them:
 | Citation resolution | `src/mf_faq/guardrails/citation.py` |
 | Tracing | `src/mf_faq/tracing/` |
 | UI | `src/mf_faq/ui/app.py` |
+| UI design reference | `design/stitch/`, `docs/ui-design-prompt.md` (see §7.11) |
 | Evaluation | `eval/` |
 | Tests | `tests/` |
 | Docs | `README.md`, `PRD.md`, `architecture.md`, `docs/` |
@@ -1812,3 +1912,4 @@ These must always hold; tests assert them:
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 08 Nov 2026 | Initial architecture derived from `PRD.md`; components, data flow, interfaces, guardrails, deployment, testing, ADRs, and traceability defined |
+| 1.1 | 10 Nov 2026 | Added §7.11 UI design system and screen inventory from the Google Stitch export (`design/stitch/`): tokens, type scale, per-tab anatomy, Streamlit mapping, and the mock-content gaps that must not ship |
