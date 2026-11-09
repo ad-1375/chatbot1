@@ -12,6 +12,8 @@ Answers are short (≤3 sentences), factual, and carry exactly one source link p
 
 **Facts-only. No investment advice.**
 
+Live demo (Vercel container): <https://chatbot1-nine-ruddy.vercel.app/>
+
 ## Status
 
 Phase 1 (project scaffold, config, contracts, health check), Step 1

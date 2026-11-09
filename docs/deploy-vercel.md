@@ -154,6 +154,27 @@ vercel --prod
 6. **Evaluation tab** — the recorded acceptance summary from
    `docs/sample_qa.md` renders; recorded answers and sample values do not.
 
+### Production verification record (2026-11-10)
+
+The first production deployment of this repo was checked from a local machine
+against the live URL:
+
+| Check | Command / action | Result |
+|---|---|---|
+| URL | — | <https://chatbot1-nine-ruddy.vercel.app/> |
+| Health | `GET /_stcore/health` | `200`, body `ok` |
+| Root page | `GET /` | `200`, `text/html; charset=utf-8`, 7,863 bytes |
+| Ask tab | *"What is the expense ratio of HDFC ELSS Tax Saver Fund?"* | `answered`, `1.20%`, one Groww citation, freshness date = build date |
+| Guardrails | *"Should I buy HDFC ELSS?"* / *"My PAN is ABCDE1234F"* | `refused_advice` / `blocked_pii`, no echo of the value |
+| Evaluation tab | open tab | recorded summary from `docs/sample_qa.md` renders only |
+
+The build log for that image showed `5/5` pages, `774` chunks, `86` indexed
+chunks, `86` embeddings, and index count `86` — the same counts as the local
+build, so the container reproduces the hermetic index exactly.
+
+Pushing any commit to the connected branch triggers a new build. A **failed**
+build leaves the previous deployment live; only a successful build replaces it.
+
 ---
 
 ## 5. Limits and caveats
