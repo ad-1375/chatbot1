@@ -19,10 +19,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# build-essential covers a few torch/transformers build-time probes; curl is for
-# manual health checks inside the container.
+# curl is for manual health checks inside the container. No compiler is needed:
+# torch, lxml, and selectolax all ship manylinux wheels for cp312.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends build-essential curl \
+    && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 
 # CPU-only torch keeps the image far smaller than the default CUDA wheels.
