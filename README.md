@@ -278,6 +278,37 @@ three follow-up turns. There is no server-side chat history. UI tests inject a
 fake answer service and a fake Chroma store through `st.session_state`, so they
 never call a provider, fetch a page, or mutate the live index.
 
+## Deploy on Vercel
+
+Streamlit needs a long-lived WebSocket server, so the app deploys as a
+**container image** (`Dockerfile` + `vercel.json` with `"framework": "container"`),
+not as a static or standard serverless app. The five pages are ingested, chunked,
+embedded, and indexed during the image build, so `data/` is never committed and
+no provider key is needed at build time. Full steps, every parameter, limits, and
+troubleshooting: [`docs/deploy-vercel.md`](docs/deploy-vercel.md).
+
+Short version:
+
+1. Vercel → **Add New → Project** → import `ad-1375/chatbot1`.
+2. Framework Preset **Container**, Root Directory `.`, build settings default.
+3. Environment variables (Production): `LLM_PROVIDER=groq`,
+   `LLM_MODEL=qwen/qwen3.8-27b`, `GROQ_API_KEY=<key>` (Sensitive), optional
+   `DEMO_ADMIN=false`.
+4. Deploy, then check `https://<project>.vercel.app/_stcore/health` returns `ok`.
+
+```powershell
+# CLI equivalent
+vercel link
+'groq'             | vercel env add LLM_PROVIDER production
+'qwen/qwen3.8-27b' | vercel env add LLM_MODEL production
+'<key>'            | vercel env add GROQ_API_KEY production
+vercel --prod
+```
+
+Because Vercel functions cap request duration (300 s on Hobby), the Streamlit
+WebSocket reconnects periodically and in-memory chat state resets; facts are
+stateless and still answer correctly.
+
 ## Layout
 
 ```text
@@ -286,7 +317,7 @@ src/mf_faq/             application package (config, contracts, healthcheck, ing
 scripts/                pipeline entry points (run_ingest, run_chunk, run_embed, run_index, and run_answer implemented)
 tests/                  unit, integration, security, and e2e tests
 data/                   rebuildable artifacts: raw, processed, chunks, embeddings, chroma, traces
-docs/                   source registry, sample Q&A, disclaimer
+docs/                   source registry, sample Q&A, disclaimer, Vercel deployment guide
 ```
 
 ## Scope limits
@@ -297,7 +328,7 @@ docs/                   source registry, sample Q&A, disclaimer
 - Follow-up scheme memory lasts three turns; clarify, PII, out-of-scope, and refusal statuses never call the LLM.
 - Performance content is retained for audit but never indexed.
 - Reference links in `docs/sources.yaml` are used only in refusal/education copy and are never indexed.
-- Local prototype only; no accounts, server-side chat history, or hosted multi-user deployment.
+- Hosted demo runs as a single container image (Vercel) with an ephemeral filesystem; no accounts, server-side chat history, or shared multi-user state. The local run binds to localhost only.
 
 ## Data and secrets
 

@@ -1,0 +1,10 @@
+# Keep files that are parsed by Linux tooling on LF, regardless of the
+# developer's Windows checkout. Without this, `RUN ... \` continuations in the
+# Dockerfile break when the file is checked out with CRLF line endings.
+* text=auto
+Dockerfile text eol=lf
+.dockerignore text eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+vercel.json text eol=lf

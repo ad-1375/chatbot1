@@ -1,0 +1,28 @@
+# Keep the Vercel build context small and secret-free.
+.venv/
+venv/
+.git/
+.gitignore
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Rebuilt inside the image at build time.
+data/
+
+# Not needed at runtime.
+tests/
+eval/
+PRD.md
+architecture.md
+implementation.md
+docs/ProblemStatement.txt
+docs/deploy-vercel.md
