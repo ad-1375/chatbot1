@@ -1,0 +1,8 @@
+# Bind the Streamlit server to localhost only: no LAN or external exposure.
+[server]
+address = "localhost"
+port = 8501
+headless = true
+
+[browser]
+gatherUsageStats = false

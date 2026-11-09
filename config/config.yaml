@@ -1,0 +1,65 @@
+app:
+  title: "HDFC MF Facts Assistant"
+  max_answer_sentences: 3
+  max_query_chars: 500
+  disclaimer: "Facts-only. No investment advice."
+
+corpus:
+  follow_links: false
+  max_depth: 0
+  allowlist_domains: ["groww.in"]
+  request_delay_seconds: 2.0
+  timeout_seconds: 30
+  max_retries: 3
+  max_page_bytes: 5242880
+  render_js_fallback: true
+  user_agent: "Mozilla/5.0 (compatible; HDFC-MF-FAQ/1.0)"
+  seed_pages:
+    - { id: c1_amc_hdfc, url: "https://groww.in/mutual-funds/amc/hdfc-mutual-funds", page_type: amc, scheme_id: amc_hdfc }
+    - { id: c2_hdfc_large_cap, url: "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth", page_type: scheme, scheme_id: hdfc_large_cap }
+    - { id: c3_hdfc_flexi_cap, url: "https://groww.in/mutual-funds/hdfc-equity-fund-direct-growth", page_type: scheme, scheme_id: hdfc_flexi_cap }
+    - { id: c4_hdfc_elss, url: "https://groww.in/mutual-funds/hdfc-elss-tax-saver-fund-direct-plan-growth", page_type: scheme, scheme_id: hdfc_elss }
+    - { id: c5_hdfc_mid_cap, url: "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth", page_type: scheme, scheme_id: hdfc_mid_cap }
+
+chunking:
+  max_tokens: 220
+  min_tokens: 40
+  tokenizer: "sentence-transformers/all-MiniLM-L6-v2"
+  exclude_content_classes: ["performance", "boilerplate", "navigation"]
+
+embedding:
+  model: "sentence-transformers/all-MiniLM-L6-v2"
+  device: "auto"
+  batch_size: 32
+  normalize: true
+  max_seq_length: 256
+
+vector_db:
+  provider: "chromadb"
+  persist_dir: "data/chroma"
+  collection: "mf_faq_v1"
+  distance: "cosine"
+  batch_size: 100
+
+retrieval:
+  top_k: 12
+  final_k: 5
+  score_threshold: 0.30
+  max_context_tokens: 1200
+
+llm:
+  provider: "${LLM_PROVIDER}"
+  model: "${LLM_MODEL}"
+  temperature: 0.1
+  max_tokens: 300
+  timeout_seconds: 25
+  max_retries: 2
+
+guardrails:
+  pii_block: true
+  refusals_enabled: true
+  citation_allowlist_only: true
+  max_sentences: 3
+  repair_attempts: 1
+  extractive_fallback: true
+  injection_defense: true

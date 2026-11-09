@@ -1,0 +1,73 @@
+# Source registry.
+#
+# corpus:    exactly five URLs. The only pages that are ever fetched or indexed.
+# references: 10-15 verified official links. Used in refusal/education copy only.
+#            Never fetched during a request, never chunked, never indexed.
+
+corpus:
+  - id: c1_amc_hdfc
+    scheme_id: amc_hdfc
+    page_type: amc
+    title: "HDFC Mutual Fund"
+    url: "https://groww.in/mutual-funds/amc/hdfc-mutual-funds"
+  - id: c2_hdfc_large_cap
+    scheme_id: hdfc_large_cap
+    page_type: scheme
+    title: "HDFC Large Cap Fund Direct Growth"
+    url: "https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth"
+  - id: c3_hdfc_flexi_cap
+    scheme_id: hdfc_flexi_cap
+    page_type: scheme
+    title: "HDFC Flexi Cap Direct Plan Growth"
+    url: "https://groww.in/mutual-funds/hdfc-equity-fund-direct-growth"
+  - id: c4_hdfc_elss
+    scheme_id: hdfc_elss
+    page_type: scheme
+    title: "HDFC ELSS Tax Saver Fund Direct Plan Growth"
+    url: "https://groww.in/mutual-funds/hdfc-elss-tax-saver-fund-direct-plan-growth"
+  - id: c5_hdfc_mid_cap
+    scheme_id: hdfc_mid_cap
+    page_type: scheme
+    title: "HDFC Mid Cap Fund Direct Growth"
+    url: "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth"
+
+references:
+  - id: ref_sebi_investor
+    title: "SEBI Investor Education"
+    url: "https://investor.sebi.gov.in/"
+  - id: ref_sebi_home
+    title: "Securities and Exchange Board of India"
+    url: "https://www.sebi.gov.in/"
+  - id: ref_sebi_mutual_funds
+    title: "SEBI — Mutual Funds"
+    url: "https://www.sebi.gov.in/financial-education/mutual-funds.html"
+  - id: ref_amfi_home
+    title: "Association of Mutual Funds in India"
+    url: "https://www.amfiindia.com/"
+  - id: ref_amfi_knowledge
+    title: "AMFI Investor Corner — Knowledge Center"
+    url: "https://www.amfiindia.com/investor-corner/knowledge-center"
+  - id: ref_amfi_faq
+    title: "AMFI — Mutual Fund FAQs"
+    url: "https://www.amfiindia.com/investor-corner/knowledge-center/mutual-funds-faqs.html"
+  - id: ref_hdfc_home
+    title: "HDFC Mutual Fund"
+    url: "https://www.hdfcfund.com/"
+  - id: ref_hdfc_fund_page
+    title: "HDFC Mutual Fund — Our Funds"
+    url: "https://www.hdfcfund.com/mutual-funds"
+  - id: ref_hdfc_downloads
+    title: "HDFC Mutual Fund — Downloads and Statements"
+    url: "https://www.hdfcfund.com/investor-services/downloads"
+  - id: ref_hdfc_factsheet
+    title: "HDFC Mutual Fund — Scheme Factsheets"
+    url: "https://www.hdfcfund.com/mutual-funds"
+  - id: ref_groww_explore
+    title: "Groww — Mutual Funds"
+    url: "https://groww.in/mutual-funds"
+  - id: ref_groww_amfi
+    title: "AMFI — Investor Charter"
+    url: "https://www.amfiindia.com/investor-charter"
+  - id: ref_sebi_investor_charter
+    title: "SEBI — Investor Charter"
+    url: "https://investor.sebi.gov.in/investor-charter.html"
